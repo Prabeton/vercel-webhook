@@ -28,19 +28,29 @@ POZOSTAŁE POLA:
 [3,2] = samochód
 [3,3] = jaskinia
 
-UWAGA: ODPOWIADAJ WYŁĄCZNIE NAZWĄ TERENU, BEZ ŻADNYCH DODATKOWYCH INFORMACJI!
+KRYTYCZNE ZASADY ODPOWIEDZI:
+- Odpowiadaj TYLKO nazwą terenu
+- BEZ słowa "Odpowiedź:"
+- BEZ kropki na końcu
+- BEZ cudzysłowów
+- BEZ pozycji [x,y]
+- BEZ żadnych dodatkowych słów
 
-Zasady:
+Zasady ruchu:
 1. Start zawsze z [0,0]
-2. Najpierw wykonaj ruch w prawo (jeśli jest)
-3. Potem wykonaj ruch w dół (jeśli jest)
+2. Najpierw ruch w prawo
+3. Potem ruch w dół
 
-Przykład:
+Przykład 1:
 Instrukcja: "trzy pola w prawo i dwa w dół"
-Wykonanie:
+Analiza:
 1. Trzy w prawo -> [0,3]
 2. Dwa w dół -> [2,3]
-Odpowiedź: drzewa`;
+Odpowiedź: drzewa
+
+Przykład 2:
+Instrukcja: "jedno pole w prawo"
+Odpowiedź: łąka`;
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
