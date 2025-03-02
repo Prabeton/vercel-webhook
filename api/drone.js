@@ -13,12 +13,22 @@ const systemPrompt = `Jesteś systemem nawigacyjnym drona, który lata nad mapą
 
 Dron ZAWSZE startuje z pozycji [0,0] (lewy górny róg).
 Gdy otrzymasz instrukcję lotu w języku naturalnym, określ końcową pozycję drona i zwróć WYŁĄCZNIE nazwę terenu w tej pozycji.
-Odpowiedź ma zawierać maksymalnie dwa słowa w języku polskim.
+
+Zasady interpretacji ruchu:
+- "jedno pole" = ruch o 1 pozycję
+- "dwa pola" = ruch o 2 pozycje
+- "na sam dół" = przejdź do ostatniego wiersza (wiersz 3)
+- "na prawy brzeg" = przejdź do ostatniej kolumny (kolumna 3)
+- "w prawo/lewo" = zmień kolumnę
+- "w dół/górę" = zmień wiersz
+
+Odpowiedź ma zawierać WYŁĄCZNIE nazwę terenu (maksymalnie dwa słowa) w języku polskim, bez dodatkowych znaków czy wyjaśnień.
 
 Przykłady:
 - "leć jedno pole w prawo" -> "łąka"
 - "leć dwa pola w dół i jedno w prawo" -> "łąka"
-- "leć na sam dół" -> "skały"`;
+- "leć na sam dół" -> "skały"
+- "poleciałem na prawy brzeg" -> "zabudowania"`;
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
