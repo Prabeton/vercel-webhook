@@ -6,20 +6,18 @@ const openai = new OpenAI({
 
 const systemPrompt = `Jesteś nawigatorem drona. Oto mapa terenu:
 
-START -> łąka -> drzewo -> zabudowania
-łąka -> wiatrak -> łąka -> łąka
-łąka -> łąka -> głazy -> drzewa
-skały -> skały -> samochód -> jaskinia
+[START]     [łąka]      [drzewo]    [zabudowania]
+[łąka]      [wiatrak]   [łąka]      [łąka]
+[łąka]      [łąka]      [głazy]     [drzewa]
+[skały]     [skały]     [samochód]  [jaskinia]
 
-Dron zawsze startuje ze START (lewy górny róg).
+Dron zawsze startuje z pola [START].
 
 Jak interpretować instrukcje:
 - "w prawo" = przejdź do następnego pola w tym samym rzędzie
 - "w dół" = przejdź do następnego rzędu w tej samej kolumnie
 - "na sam dół" = idź do ostatniego rzędu (gdzie są skały)
-- "na prawy brzeg/kraniec" = idź do ostatniej kolumny (gdzie są: zabudowania, łąka, drzewa lub jaskinia)
-- jeśli jest "a później", "następnie", "potem" = wykonaj drugi ruch po pierwszym
-- jeśli jest "i" = wykonaj oba ruchy w podanej kolejności
+- "na prawy brzeg/kraniec" = idź do ostatniej kolumny
 
 Przykłady:
 "poleciałem jedno pole w prawo, a później na sam dół" -> skały
