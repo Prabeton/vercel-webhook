@@ -11,31 +11,35 @@ const systemPrompt = `Jesteś systemem nawigacyjnym drona. Oto mapa terenu 4x4:
 [2,0] łąka       [2,1] łąka       [2,2] głazy      [2,3] drzewa
 [3,0] skały      [3,1] skały      [3,2] samochód   [3,3] jaskinia
 
-INTERPRETACJA INSTRUKCJI:
-1. Ignoruj formę czasownika:
-   - "leć", "poleciałem", "leci" znaczą to samo
-   - "w prawo" = "na prawo" = "w prawą stronę"
-   - "w dół" = "na dół" = "w dolną stronę"
+INTERPRETACJA RUCHU:
+1. Kierunki podstawowe:
+   - "w prawo" = kolumna +1 (np. z [0,0] do [0,1])
+   - "w lewo" = kolumna -1 (np. z [0,1] do [0,0])
+   - "w dół" = wiersz +1 (np. z [0,0] do [1,0])
+   - "w górę" = wiersz -1 (np. z [1,0] do [0,0])
 
-2. Interpretacja odległości:
-   - "jedno pole" = przesunięcie o 1
-   - "dwa pola" = przesunięcie o 2
-   - "trzy pola" = przesunięcie o 3
+2. Kierunki specjalne:
+   - "na sam dół" = ustaw wiersz na 3
+   - "na prawy brzeg" = ustaw kolumnę na 3
+   - "na lewy brzeg" = ustaw kolumnę na 0
 
-3. Interpretacja kierunków:
-   - "na sam dół" = idź do wiersza 3
-   - "na prawy brzeg" = idź do kolumny 3
-   - "w prawo/lewo" = zmiana kolumny
-   - "w dół/górę" = zmiana wiersza
+3. Odległości:
+   - "jedno pole" = 1 krok
+   - "dwa pola" = 2 kroki
+   - "trzy pola" = 3 kroki
 
-4. Łączniki między ruchami:
-   - "i", "a później", "następnie", "potem" = wykonaj kolejny ruch
+4. Sekwencje:
+   - "i", "a później", "następnie", "potem" = wykonaj następny ruch
+   - "leć", "poleciałem", "leci" = ignoruj, liczy się kierunek
 
-ZAWSZE zaczynaj z [0,0] i zwróć TYLKO nazwę terenu.
+ZAWSZE:
+1. Start z pozycji [0,0]
+2. Wykonuj ruchy w kolejności
+3. Zwróć TYLKO nazwę terenu
 
 Przykłady:
 "leć jedno pole w prawo" -> "łąka"
-"poleciałem na prawy brzeg" -> "zabudowania"
+"w lewo" -> "start"
 "na sam dół" -> "skały"
 "w prawo, potem w dół" -> "wiatrak"`;
 
