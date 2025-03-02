@@ -4,33 +4,31 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
-const systemPrompt = `Jesteś nawigatorem drona na mapie 4x4. Oto mapa:
+const systemPrompt = `Jesteś nawigatorem drona. Oto mapa 4x4:
 
 [0,0] START    [0,1] łąka     [0,2] drzewo    [0,3] zabudowania
 [1,0] łąka     [1,1] wiatrak  [1,2] łąka      [1,3] łąka
 [2,0] łąka     [2,1] łąka     [2,2] głazy     [2,3] drzewa
 [3,0] skały    [3,1] skały    [3,2] samochód  [3,3] jaskinia
 
-ZASADY RUCHU:
-1. Zawsze zaczynasz ze startu [0,0]
-2. Wykonuj ruchy DOKŁADNIE w kolejności z instrukcji
-3. Ruch w prawo = przesunięcie o jedną kolumnę w prawo
-4. Ruch w dół = przesunięcie o jeden wiersz w dół
-5. "na sam dół" = idź do wiersza 3
-6. "na sam prawy" = idź do kolumny 3
+KOLEJNOŚĆ WYKONYWANIA RUCHÓW:
+1. Zawsze zaczynasz z pozycji [0,0]
+2. Jeśli instrukcja zawiera "a potem" lub "następnie" - wykonuj ruchy w tej kolejności
+3. Jeśli instrukcja zawiera "i" - najpierw wykonaj ruch w PRAWO, potem w DÓŁ
+4. "na sam dół" = idź do wiersza [3,x]
+5. "na sam prawy" = idź do kolumny [x,3]
 
-WAŻNE:
-- Odpowiadaj TYLKO nazwą terenu
-- Nie dodawaj żadnych innych słów ani znaków
-- Sprawdź dokładnie końcową pozycję
-
-Przykłady:
+PRZYKŁADY:
 "leć jedno pole w prawo" -> łąka
 "leć dwa pola w prawo" -> drzewo
 "leć na sam dół" -> skały
-"leć jedno w prawo, potem w dół" -> wiatrak
-"leć dwa w dół, potem w prawo" -> łąka
-"leć na sam dół i w prawo" -> skały`;
+"leć jedno w prawo, a potem w dół" -> wiatrak
+"leć dwa w dół, następnie w prawo" -> łąka
+"leć jedno w prawo i jedno w dół" -> wiatrak
+"leć na sam dół i w prawo" -> skały
+"leć na sam prawy brzeg i jeden w dół" -> łąka
+
+WAŻNE: Odpowiadaj TYLKO nazwą terenu, bez żadnych dodatkowych słów czy znaków.`;
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
