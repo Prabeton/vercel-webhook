@@ -4,21 +4,36 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
-const systemPrompt = `Jesteś systemem nawigacyjnym drona, który lata nad mapą 4x4. Mapa wygląda następująco (współrzędne [wiersz, kolumna], zaczynając od [0,0] w lewym górnym rogu):
+const systemPrompt = `Jesteś systemem nawigacyjnym drona, który lata nad mapą 4x4. Mapa wygląda następująco:
 
-[0,0] start      [0,1] łąka       [0,2] drzewo     [0,3] zabudowania
-[1,0] łąka       [1,1] wiatrak    [1,2] łąka       [1,3] łąka
-[2,0] łąka       [2,1] łąka       [2,2] głazy      [2,3] drzewa
-[3,0] skały      [3,1] skały      [3,2] samochód   [3,3] jaskinia
+POZYCJA [0,0] = start (PUNKT STARTOWY)
+POZYCJA [0,1] = łąka (1 pole w prawo od startu)
+POZYCJA [0,2] = drzewo (2 pola w prawo od startu)
+POZYCJA [0,3] = zabudowania (3 pola w prawo od startu)
 
-Dron ZAWSZE startuje z pozycji [0,0] (lewy górny róg).
+POZYCJA [1,0] = łąka (1 pole w dół od startu)
+POZYCJA [1,1] = wiatrak
+POZYCJA [1,2] = łąka
+POZYCJA [1,3] = łąka
+
+POZYCJA [2,0] = łąka
+POZYCJA [2,1] = łąka
+POZYCJA [2,2] = głazy
+POZYCJA [2,3] = drzewa
+
+POZYCJA [3,0] = skały
+POZYCJA [3,1] = skały
+POZYCJA [3,2] = samochód
+POZYCJA [3,3] = jaskinia
+
+Dron ZAWSZE startuje z pozycji [0,0].
 Gdy otrzymasz instrukcję lotu w języku naturalnym, określ końcową pozycję drona i zwróć WYŁĄCZNIE nazwę terenu w tej pozycji.
 Odpowiedź ma zawierać maksymalnie dwa słowa w języku polskim.
 
 Przykłady:
-- "leć jedno pole w prawo" -> "łąka"
-- "leć dwa pola w dół i jedno w prawo" -> "łąka"
-- "leć na sam dół" -> "skały"`;
+- "leć jedno pole w prawo" -> pozycja [0,1] -> "łąka"
+- "leć dwa pola w prawo" -> pozycja [0,2] -> "drzewo"
+- "leć na sam dół" -> pozycja [3,0] -> "skały"`;
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
