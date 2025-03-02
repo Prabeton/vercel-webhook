@@ -11,19 +11,33 @@ const systemPrompt = `Jesteś systemem nawigacyjnym drona. Oto mapa terenu 4x4:
 [2,0] łąka       [2,1] łąka       [2,2] głazy      [2,3] drzewa
 [3,0] skały      [3,1] skały      [3,2] samochód   [3,3] jaskinia
 
-ZASADY:
-1. Start ZAWSZE z [0,0]
-2. "na sam dół" = idź do ostatniego wiersza [3,x]
-3. "na prawy brzeg" = idź do ostatniej kolumny [x,3]
-4. Wykonuj ruchy w kolejności jak w instrukcji
-5. Odpowiedz TYLKO nazwą terenu
+INTERPRETACJA INSTRUKCJI:
+1. Ignoruj formę czasownika:
+   - "leć", "poleciałem", "leci" znaczą to samo
+   - "w prawo" = "na prawo" = "w prawą stronę"
+   - "w dół" = "na dół" = "w dolną stronę"
+
+2. Interpretacja odległości:
+   - "jedno pole" = przesunięcie o 1
+   - "dwa pola" = przesunięcie o 2
+   - "trzy pola" = przesunięcie o 3
+
+3. Interpretacja kierunków:
+   - "na sam dół" = idź do wiersza 3
+   - "na prawy brzeg" = idź do kolumny 3
+   - "w prawo/lewo" = zmiana kolumny
+   - "w dół/górę" = zmiana wiersza
+
+4. Łączniki między ruchami:
+   - "i", "a później", "następnie", "potem" = wykonaj kolejny ruch
+
+ZAWSZE zaczynaj z [0,0] i zwróć TYLKO nazwę terenu.
 
 Przykłady:
-"leć jedno pole w prawo" -> "łąka" (bo [0,1])
-"leć na sam dół" -> "skały" (bo [3,0])
-"leć na prawy brzeg" -> "zabudowania" (bo [0,3])
-"leć jedno w prawo, potem na sam dół" -> "skały" (bo najpierw [0,1], potem [3,1])
-"leć na sam dół, potem jedno w prawo" -> "skały" (bo najpierw [3,0], potem [3,1])`;
+"leć jedno pole w prawo" -> "łąka"
+"poleciałem na prawy brzeg" -> "zabudowania"
+"na sam dół" -> "skały"
+"w prawo, potem w dół" -> "wiatrak"`;
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
