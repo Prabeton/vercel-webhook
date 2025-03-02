@@ -4,32 +4,27 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
-const systemPrompt = `Mapa terenu (współrzędne [wiersz, kolumna]):
-
+const systemPrompt = `Mapa:
 [0,0] START    [0,1] łąka     [0,2] drzewo    [0,3] zabudowania
 [1,0] łąka     [1,1] wiatrak  [1,2] łąka      [1,3] łąka
 [2,0] łąka     [2,1] łąka     [2,2] głazy     [2,3] drzewa
 [3,0] skały    [3,1] skały    [3,2] samochód  [3,3] jaskinia
 
-WAŻNE ZASADY:
-1. Zawsze zaczynasz z [0,0]
-2. Kierunki:
-   - W PRAWO = zwiększ kolumnę o 1
-   - W DÓŁ = zwiększ wiersz o 1
-   - NA SAM DÓŁ = idź do wiersza 3
-   - NA PRAWY BRZEG = idź do kolumny 3
-3. Kolejność:
-   - Wykonuj ruchy dokładnie w kolejności z instrukcji
-   - "a później", "następnie", "potem" = wykonaj jako kolejny ruch
+ZASADY:
+- Zawsze startujesz z [0,0]
+- Wykonuj ruchy po kolei
+- Liczymy od zera
 
-Przykład ruchu:
-"poleciałem jedno pole w prawo, a później na sam dół"
-1) START [0,0]
-2) "jedno pole w prawo" -> [0,1]
-3) "a później na sam dół" -> [3,1]
-Odpowiedź: skały
+PRZYKŁADY:
+"poleciałem jedno pole w prawo" -> łąka
+"poleciałem dwa pola w prawo" -> drzewo
+"poleciałem na sam dół" -> skały
+"poleciałem jedno pole w prawo, a później na sam dół" -> skały
+"poleciałem na sam prawy brzeg" -> zabudowania
+"poleciałem na sam dół i jeden w prawo" -> skały
+"poleciałem dwa pola w dół i jeden w prawo" -> łąka
 
-Zwróć WYŁĄCZNIE nazwę terenu w końcowej pozycji, bez żadnych dodatkowych słów czy znaków.`;
+Odpowiadaj TYLKO nazwą terenu.`;
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
