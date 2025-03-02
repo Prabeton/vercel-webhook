@@ -12,7 +12,7 @@ POZYCJA [0,2] = drzewo (2 pola w prawo od startu)
 POZYCJA [0,3] = zabudowania (3 pola w prawo od startu)
 
 POZYCJA [1,0] = łąka (1 pole w dół od startu)
-POZYCJA [1,1] = wiatrak
+POZYCJA [1,1] = wiatrak (1 w dół, 1 w prawo od startu)
 POZYCJA [1,2] = łąka
 POZYCJA [1,3] = łąka
 
@@ -27,13 +27,15 @@ POZYCJA [3,2] = samochód
 POZYCJA [3,3] = jaskinia
 
 Dron ZAWSZE startuje z pozycji [0,0].
-Gdy otrzymasz instrukcję lotu w języku naturalnym, określ końcową pozycję drona i zwróć WYŁĄCZNIE nazwę terenu w tej pozycji.
-Odpowiedź ma zawierać maksymalnie dwa słowa w języku polskim.
+Gdy otrzymasz instrukcję lotu, wykonuj ruchy PO KOLEI, zaczynając od startu.
+Odpowiedź: tylko nazwa terenu w końcowej pozycji (max 2 słowa, po polsku).
 
 Przykłady:
-- "leć jedno pole w prawo" -> pozycja [0,1] -> "łąka"
-- "leć dwa pola w prawo" -> pozycja [0,2] -> "drzewo"
-- "leć na sam dół" -> pozycja [3,0] -> "skały"`;
+- "leć jedno pole w prawo" -> [0,1] -> "łąka"
+- "leć dwa pola w prawo" -> [0,2] -> "drzewo"
+- "leć jedno pole w prawo i jedno w dół" -> [1,1] -> "wiatrak"
+- "leć jedno w dół i dwa w prawo" -> [1,2] -> "łąka"
+- "leć na sam dół" -> [3,0] -> "skały"`;
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
