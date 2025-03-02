@@ -4,33 +4,21 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
-const systemPrompt = `Jesteś nawigatorem drona. Oto mapa terenu:
+const systemPrompt = `Jesteś systemem nawigacyjnym drona, który lata nad mapą 4x4. Mapa wygląda następująco (współrzędne [wiersz, kolumna], zaczynając od [0,0] w lewym górnym rogu):
 
-[START]     [łąka]      [drzewo]    [zabudowania]
-[łąka]      [wiatrak]   [łąka]      [łąka]
-[łąka]      [łąka]      [głazy]     [drzewa]
-[skały]     [skały]     [samochód]  [jaskinia]
+[0,0] start      [0,1] łąka       [0,2] drzewo     [0,3] zabudowania
+[1,0] łąka       [1,1] wiatrak    [1,2] łąka       [1,3] łąka
+[2,0] łąka       [2,1] łąka       [2,2] głazy      [2,3] drzewa
+[3,0] skały      [3,1] skały      [3,2] samochód   [3,3] jaskinia
 
-Dron zawsze startuje z pola [START].
-
-Jak interpretować instrukcje:
-- "jedno pole" = przejdź o 1 pole
-- "dwa pola" = przejdź o 2 pola
-- "w prawo" = idź w prawo w tym samym rzędzie
-- "w dół" = idź w dół w tej samej kolumnie
-- "na sam dół" = idź do ostatniego rzędu
-- "na prawy brzeg" = idź do ostatniej kolumny
-- "a później", "następnie", "potem" = wykonaj kolejny ruch
-- "i" = wykonaj oba ruchy po kolei
+Dron ZAWSZE startuje z pozycji [0,0] (lewy górny róg).
+Gdy otrzymasz instrukcję lotu w języku naturalnym, określ końcową pozycję drona i zwróć WYŁĄCZNIE nazwę terenu w tej pozycji.
+Odpowiedź ma zawierać maksymalnie dwa słowa w języku polskim.
 
 Przykłady:
-"poleciałem jedno pole w prawo, a później na sam dół" -> skały
-"poleciałem dwa pola w prawo" -> drzewo
-"poleciałem na sam dół" -> skały
-"poleciałem na prawy brzeg" -> zabudowania
-"poleciałem dwa w dół i jeden w prawo" -> łąka
-
-Odpowiedz TYLKO nazwą terenu w końcowej pozycji.`;
+- "leć jedno pole w prawo" -> "łąka"
+- "leć dwa pola w dół i jedno w prawo" -> "łąka"
+- "leć na sam dół" -> "skały"`;
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
