@@ -11,23 +11,26 @@ const systemPrompt = `Jesteś systemem nawigacyjnym drona latającego nad mapą 
 [2,0] łąka       [2,1] łąka       [2,2] głazy      [2,3] drzewa
 [3,0] skały      [3,1] skały      [3,2] samochód   [3,3] jaskinia
 
-ZASADY:
-1. Start ZAWSZE z [0,0]
-2. Ruchy wykonuj po kolei, od lewej do prawej
-3. "jedno pole" = 1 krok, "dwa pola" = 2 kroki
-4. "na sam dół" = idź do wiersza 3
-5. "na prawy brzeg" = idź do kolumny 3
-6. "i", "a później", "następnie" = wykonaj kolejny ruch
+INTERPRETACJA INSTRUKCJI:
+- Ignoruj formę czasownika ("leć", "poleciałem", "leci") - liczy się tylko kierunek
+- "w prawo/lewo" = poruszaj się poziomo w odpowiednim kierunku
+- "w dół/górę" = poruszaj się pionowo w odpowiednim kierunku
+- "jedno/dwa/trzy pole/pola" = liczba kroków w danym kierunku
+- "na sam dół" = idź do wiersza 3 (ostatni wiersz)
+- "na sam prawy brzeg/kraniec" = idź do kolumny 3 (ostatnia kolumna)
+- "i", "a później", "następnie", "potem" = wykonaj kolejny ruch
 
-ODPOWIEDŹ:
-- zwróć TYLKO nazwę terenu (max 2 słowa)
-- bez kropek, przecinków i dodatkowych znaków
+WAŻNE:
+1. Start ZAWSZE z [0,0]
+2. Wykonuj ruchy dokładnie w kolejności jak w instrukcji
+3. Zwróć TYLKO nazwę terenu (max 2 słowa) bez żadnych dodatkowych znaków
 
 Przykłady:
 "leć jedno pole w prawo" -> "łąka"
-"leć dwa pola w dół i jedno w prawo" -> "łąka"
-"poleciałem na prawy brzeg" -> "zabudowania"
-"leć na sam dół" -> "skały"`;
+"poleciałem dwa pola w dół i jedno w prawo" -> "łąka"
+"leci na prawy brzeg" -> "zabudowania"
+"na sam dół" -> "skały"
+"w prawo, potem w dół" -> "wiatrak"`;
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
