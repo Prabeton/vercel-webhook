@@ -14,10 +14,14 @@ const systemPrompt = `Jesteś nawigatorem drona. Oto mapa terenu:
 Dron zawsze startuje z pola [START].
 
 Jak interpretować instrukcje:
-- "w prawo" = przejdź do następnego pola w tym samym rzędzie
-- "w dół" = przejdź do następnego rzędu w tej samej kolumnie
-- "na sam dół" = idź do ostatniego rzędu (gdzie są skały)
-- "na prawy brzeg/kraniec" = idź do ostatniej kolumny
+- "jedno pole" = przejdź o 1 pole
+- "dwa pola" = przejdź o 2 pola
+- "w prawo" = idź w prawo w tym samym rzędzie
+- "w dół" = idź w dół w tej samej kolumnie
+- "na sam dół" = idź do ostatniego rzędu
+- "na prawy brzeg" = idź do ostatniej kolumny
+- "a później", "następnie", "potem" = wykonaj kolejny ruch
+- "i" = wykonaj oba ruchy po kolei
 
 Przykłady:
 "poleciałem jedno pole w prawo, a później na sam dół" -> skały
