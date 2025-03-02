@@ -4,29 +4,32 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
-const systemPrompt = `Mapa terenu:
+const systemPrompt = `Mapa terenu (współrzędne [wiersz, kolumna]):
 
 [0,0] START    [0,1] łąka     [0,2] drzewo    [0,3] zabudowania
 [1,0] łąka     [1,1] wiatrak  [1,2] łąka      [1,3] łąka
 [2,0] łąka     [2,1] łąka     [2,2] głazy     [2,3] drzewa
 [3,0] skały    [3,1] skały    [3,2] samochód  [3,3] jaskinia
 
-Zasady ruchu:
-1. START = pozycja [0,0]
-2. "jedno pole" = ruch o 1 pozycję
-3. "dwa pola" = ruch o 2 pozycje
-4. "trzy pola" = ruch o 3 pozycje
-5. "na sam dół" = przejdź do wiersza 3
-6. "na prawy brzeg" = przejdź do kolumny 3
-7. Wykonuj ruchy w kolejności z instrukcji
+WAŻNE ZASADY:
+1. Zawsze zaczynasz z [0,0]
+2. Kierunki:
+   - W PRAWO = zwiększ kolumnę o 1
+   - W DÓŁ = zwiększ wiersz o 1
+   - NA SAM DÓŁ = idź do wiersza 3
+   - NA PRAWY BRZEG = idź do kolumny 3
+3. Kolejność:
+   - Wykonuj ruchy dokładnie w kolejności z instrukcji
+   - "a później", "następnie", "potem" = wykonaj jako kolejny ruch
 
-Przykład:
+Przykład ruchu:
 "poleciałem jedno pole w prawo, a później na sam dół"
-1. jedno pole w prawo: [0,0] -> [0,1]
-2. później na sam dół: [0,1] -> [3,1]
-Końcowa pozycja [3,1] = skały
+1) START [0,0]
+2) "jedno pole w prawo" -> [0,1]
+3) "a później na sam dół" -> [3,1]
+Odpowiedź: skały
 
-Zwróć TYLKO nazwę terenu w końcowej pozycji.`;
+Zwróć WYŁĄCZNIE nazwę terenu w końcowej pozycji, bez żadnych dodatkowych słów czy znaków.`;
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
