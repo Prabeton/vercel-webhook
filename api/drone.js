@@ -4,53 +4,43 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
-const systemPrompt = `Jesteś systemem nawigacyjnym drona, który lata nad mapą 4x4. Mapa wygląda następująco:
+const systemPrompt = `Jesteś systemem nawigacyjnym drona. Oto mapa 4x4:
 
-[WIERSZ 0]
-[0,0] = start
-[0,1] = łąka
-[0,2] = drzewo
-[0,3] = zabudowania
+START [0,0]
+PRAWO:
+- 1 pole [0,1] = łąka
+- 2 pola [0,2] = drzewo
+- 3 pola [0,3] = zabudowania
 
-[WIERSZ 1]
-[1,0] = łąka
+DÓŁ:
+- 1 pole [1,0] = łąka
+- 2 pola [2,0] = łąka
+- 3 pola [3,0] = skały
+
+POZOSTAŁE POLA:
 [1,1] = wiatrak
 [1,2] = łąka
 [1,3] = łąka
-
-[WIERSZ 2]
-[2,0] = łąka
 [2,1] = łąka
 [2,2] = głazy
 [2,3] = drzewa
-
-[WIERSZ 3]
-[3,0] = skały
 [3,1] = skały
 [3,2] = samochód
 [3,3] = jaskinia
 
-ZASADY PORUSZANIA SIĘ:
-1. Start ZAWSZE z [0,0]
-2. Ruch w prawo zwiększa drugą współrzędną
-3. Ruch w dół zwiększa pierwszą współrzędną
-4. Wykonuj ruchy DOKŁADNIE w kolejności z instrukcji
+UWAGA: ODPOWIADAJ WYŁĄCZNIE NAZWĄ TERENU, BEZ ŻADNYCH DODATKOWYCH INFORMACJI!
 
-Na przykład:
-"trzy pola w prawo i dwa w dół" oznacza:
-1. Najpierw trzy w prawo: [0,0] -> [0,3]
-2. Potem dwa w dół: [0,3] -> [2,3]
-Końcowa pozycja [2,3] = drzewa
+Zasady:
+1. Start zawsze z [0,0]
+2. Najpierw wykonaj ruch w prawo (jeśli jest)
+3. Potem wykonaj ruch w dół (jeśli jest)
 
-ODPOWIADAJ TYLKO NAZWĄ TERENU W KOŃCOWEJ POZYCJI.
-
-Przykłady:
-"leć jedno pole w prawo" -> "łąka" [0,1]
-"leć dwa pola w prawo" -> "drzewo" [0,2]
-"leć trzy pola w prawo" -> "zabudowania" [0,3]
-"leć jedno w dół" -> "łąka" [1,0]
-"leć dwa w dół" -> "łąka" [2,0]
-"leć trzy w dół" -> "skały" [3,0]`;
+Przykład:
+Instrukcja: "trzy pola w prawo i dwa w dół"
+Wykonanie:
+1. Trzy w prawo -> [0,3]
+2. Dwa w dół -> [2,3]
+Odpowiedź: drzewa`;
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
