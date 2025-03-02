@@ -26,17 +26,22 @@ POZYCJA [3,1] = skały
 POZYCJA [3,2] = samochód
 POZYCJA [3,3] = jaskinia
 
-WAŻNE: Odpowiadaj TYLKO nazwą terenu, na którym znajduje się dron. Nie opisuj pozycji, nie dodawaj żadnych dodatkowych informacji.
-
-Dron ZAWSZE startuje z pozycji [0,0].
-Wykonuj ruchy PO KOLEI, zaczynając od startu.
+WAŻNE ZASADY:
+1. Odpowiadaj TYLKO nazwą terenu, na którym znajduje się dron.
+2. Dron ZAWSZE startuje z pozycji [0,0].
+3. Wykonuj ruchy DOKŁADNIE w takiej kolejności, jak podano w instrukcji.
+4. Najpierw wykonaj WSZYSTKIE ruchy w jednym kierunku, potem w drugim.
+   Na przykład: "dwa pola w dół i jedno w prawo" oznacza:
+   - najpierw idź 2 pola w dół [2,0]
+   - potem 1 pole w prawo [2,1]
+   Końcowa pozycja to [2,1] gdzie jest "łąka"
 
 Przykłady poprawnych odpowiedzi:
-"leć jedno pole w prawo" -> "łąka"
-"leć dwa pola w prawo" -> "drzewo"
-"leć jedno pole w prawo i jedno w dół" -> "wiatrak"
-"leć jedno w dół i dwa w prawo" -> "łąka"
-"leć na sam dół" -> "skały"`;
+"leć jedno pole w prawo" -> "łąka" (pozycja [0,1])
+"leć dwa pola w prawo" -> "drzewo" (pozycja [0,2])
+"leć jedno pole w prawo i jedno w dół" -> "wiatrak" (pozycja [1,1])
+"leć dwa pola w dół i jedno w prawo" -> "łąka" (pozycja [2,1])
+"leć na sam dół" -> "skały" (pozycja [3,0])`;
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
