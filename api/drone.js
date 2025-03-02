@@ -26,16 +26,17 @@ POZYCJA [3,1] = skały
 POZYCJA [3,2] = samochód
 POZYCJA [3,3] = jaskinia
 
-Dron ZAWSZE startuje z pozycji [0,0].
-Gdy otrzymasz instrukcję lotu, wykonuj ruchy PO KOLEI, zaczynając od startu.
-Odpowiedź: tylko nazwa terenu w końcowej pozycji (max 2 słowa, po polsku).
+WAŻNE: Odpowiadaj TYLKO nazwą terenu, na którym znajduje się dron. Nie opisuj pozycji, nie dodawaj żadnych dodatkowych informacji.
 
-Przykłady:
-- "leć jedno pole w prawo" -> [0,1] -> "łąka"
-- "leć dwa pola w prawo" -> [0,2] -> "drzewo"
-- "leć jedno pole w prawo i jedno w dół" -> [1,1] -> "wiatrak"
-- "leć jedno w dół i dwa w prawo" -> [1,2] -> "łąka"
-- "leć na sam dół" -> [3,0] -> "skały"`;
+Dron ZAWSZE startuje z pozycji [0,0].
+Wykonuj ruchy PO KOLEI, zaczynając od startu.
+
+Przykłady poprawnych odpowiedzi:
+"leć jedno pole w prawo" -> "łąka"
+"leć dwa pola w prawo" -> "drzewo"
+"leć jedno pole w prawo i jedno w dół" -> "wiatrak"
+"leć jedno w dół i dwa w prawo" -> "łąka"
+"leć na sam dół" -> "skały"`;
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
